@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, json, request
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def get():
-    pass
+    return "Hello, world!"
 
 
 @app.route("/", methods=["POST"])
