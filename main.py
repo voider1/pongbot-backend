@@ -1,4 +1,5 @@
-from flask import Flask, json, request
+#!venv/bin/python
+from flask import Flask
 
 app = Flask(__name__)
 
@@ -11,3 +12,7 @@ def get():
 @app.route("/", methods=["POST"])
 def post():
     pass
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80)
