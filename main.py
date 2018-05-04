@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
-from multiprocessing import Queue
 import random
+from multiprocessing import Queue
+
+from flask import Flask, request, jsonify
 
 response = {
     "version": "1.0",
@@ -22,13 +23,14 @@ app = Flask(__name__)
 actions = Queue()
 
 
-@app.route('/add_command', methods=['POST']) #GET requests will be blocked
+@app.route('/add_command', methods=['POST'])
 def add_command():
     req_data = request.get_json()
-    dir = req_data['request']['intent']['slots']['Direction']['value']
-    response['response']['outputSpeech']['text'] = random.choice(move_responses).format(dir)
+    direction = req_data['request']['intent']['slots']['Direction']['value']
+    response['response']['outputSpeech']['text'] = random.choice(move_responses).\
+        format(direction)
 
-    actions.put(dir)
+    actions.put(direction)
     return jsonify(response)
 
 
@@ -40,12 +42,6 @@ def get_command():
     return actions.get()
 
 
-@app.route('/test_alexa', methods=['POST'])
-def test_alexa():
-    print(request.get_json())
-
-    return jsonify(response)
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
+
